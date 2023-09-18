@@ -10,6 +10,7 @@ export const StoreModal = () => {
                description="Add a new store to manage and categories"
                isOpen={storeModal.isOpen}
                onClose={storeModal.onClose}>
+            Future Create Store Form
         </Modal>
     )
 }
