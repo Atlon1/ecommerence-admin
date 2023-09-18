@@ -1,12 +1,17 @@
-import React from 'react';
-import {Button} from "@/components/ui/button";
+"use client"
 
-const Page = () => {
+import React from 'react';
+
+import {Modal} from "@/components/ui/modal";
+
+const SetupPage = () => {
     return (
         <div className='p-4'>
-            <Button>Click me</Button>
+           <Modal title='test' description='test' isOpen onClose={() => {}}>
+               Children
+           </Modal>
         </div>
     );
 };
 
-export default Page;
+export default SetupPage;
