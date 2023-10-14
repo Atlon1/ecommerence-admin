@@ -6,24 +6,20 @@ export async function POST(
     req: Request,
 ) {
     try {
-        const { userId} = auth()
+        const {userId} = auth()
         const body = await req.json()
 
         const {name} = body
 
         if (!userId) {
-            return new NextResponse(
-                'Unauthorized', {status: 401}
-            )
+            return new NextResponse('Unauthorized', {status: 401})
         }
 
         if (!name) {
-            return new NextResponse(
-                'Name is required', {status: 400}
-            )
+            return new NextResponse('Name is required', {status: 400})
         }
-        const store =await prismadb.store.create({
-            data:{
+        const store = await prismadb.store.create({
+            data: {
                 name,
                 userId
             }
@@ -32,9 +28,7 @@ export async function POST(
         return NextResponse.json(store)
 
     } catch (error) {
-        console.error('[STORES_POST]', error)
-        return new NextResponse(
-            'Interal error', {status: 500}
-        )
+        console.log('[STORES_POST]', error)
+        return new NextResponse('Interal error', {status: 500})
     }
 }

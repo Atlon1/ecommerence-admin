@@ -2,7 +2,7 @@
 import * as z from "zod"
 import {useState} from "react"
 import {useForm} from "react-hook-form";
-
+import axios from "axios";
 import {zodResolver} from "@hookform/resolvers/zod";
 
 import {useStoreModal} from "@/hooks/use-store-modal";
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
+
 
 const fromSchema = z.object({
     name: z.string().min(1),
@@ -36,7 +37,17 @@ export const StoreModal = () => {
     })
 
     const onSubmit = async (values: z.infer<typeof fromSchema>) => {
-        console.log(values)
+        try {
+            setLoading(true)
+
+            const response = await axios.post('/api/stores', values)
+
+            console.log(response.data)
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
