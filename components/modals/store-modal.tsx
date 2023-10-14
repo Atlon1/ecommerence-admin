@@ -1,6 +1,6 @@
 'use client'
 import * as z from "zod"
-
+import {useState} from "react"
 import {useForm} from "react-hook-form";
 
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -22,7 +22,12 @@ const fromSchema = z.object({
 })
 
 export const StoreModal = () => {
+
     const storeModal = useStoreModal()
+
+    const [loading, setLoading] = useState(false)
+
+
     const form = useForm<z.infer<typeof fromSchema>>({
         resolver: zodResolver(fromSchema),
         defaultValues: {
@@ -50,7 +55,11 @@ export const StoreModal = () => {
                                     <FormItem>
                                         <FormItem>Name</FormItem>
                                         <FormControl>
-                                            <Input placeholder='E-commerce' {...field}/>
+                                            <Input
+                                                disabled={loading}
+                                                placeholder='E-commerce'
+                                                {...field}
+                                            />
                                         </FormControl>
                                         <FormMessage/>
                                     </FormItem>
@@ -58,6 +67,7 @@ export const StoreModal = () => {
                             />
                             <div className='pt-6 space-x-2 flex items-center justify-end w-full'>
                                 <Button
+                                    disabled={loading}
                                     variant='outline'
                                     onClick={storeModal.onClose}>
                                     Cancel
