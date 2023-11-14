@@ -1,5 +1,5 @@
 "use client"
-import {Check, ChevronsUpDown, Store as StoreIcon} from "lucide-react";
+import {Check, ChevronsUpDown, PlusCircle, Store as StoreIcon} from "lucide-react";
 import {Store} from ".prisma/client";
 import {useState} from "react";
 import {useParams, useRouter} from "next/navigation";
@@ -7,13 +7,17 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {useStoreModal} from "@/hooks/use-store-modal";
 import {Button} from "@/components/ui/button";
 import {cn} from "@/lib/utils";
-import {Command,
+import {
+    Command,
     CommandInput,
     CommandList,
     CommandEmpty,
     CommandGroup,
-    CommandItem}
+    CommandItem,
+    CommandSeparator
+}
     from "@/components/ui/command";
+
 
 
 
@@ -65,7 +69,7 @@ export default function StoreSwitcher({className, items = []}: StoreSwitcherProp
                         <CommandList>
                             <CommandInput placeholder='Search store...'/>
                             <CommandEmpty>No store found</CommandEmpty>
-                            <CommandGroup>
+                            <CommandGroup heading='Stores'>
                                 {formattedItems.map((item) => (
                                     <CommandItem
                                         key={item.value}
@@ -82,6 +86,21 @@ export default function StoreSwitcher({className, items = []}: StoreSwitcherProp
                                         )}/>
                                     </CommandItem>
                                 ))}
+                            </CommandGroup>
+                        </CommandList>
+                        <CommandSeparator/>
+                        <CommandList>
+                            <CommandGroup>
+                                <CommandItem
+                                onSelect={() => {
+                                    setOpen(false);
+                                    // @ts-ignore
+                                    storeModal.onOpen();
+                                }}
+                                >
+                                    <PlusCircle className='mr-2 h-5 w-5'/>
+                                        Create store
+                                </CommandItem>
                             </CommandGroup>
                         </CommandList>
                     </Command>
