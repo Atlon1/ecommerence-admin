@@ -29,7 +29,7 @@ interface StoreSwitcherProps extends PopoverTriggerProps {
 
 export default function StoreSwitcher({className, items = []}: StoreSwitcherProps) {
 
-    const storeModal = useStoreModal
+    const storeModal = useStoreModal()
     const params = useParams()
     const router = useRouter()
 
@@ -94,7 +94,6 @@ export default function StoreSwitcher({className, items = []}: StoreSwitcherProp
                                 <CommandItem
                                 onSelect={() => {
                                     setOpen(false);
-                                    // @ts-ignore
                                     storeModal.onOpen();
                                 }}
                                 >
