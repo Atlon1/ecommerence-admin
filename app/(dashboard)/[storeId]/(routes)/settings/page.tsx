@@ -1,6 +1,16 @@
 import React from 'react';
+import {auth} from "@clerk/nextjs";
 
-const SettingsPage = () => {
+interface SettingsPageProps {
+    params: {
+        storeId: string;
+    }
+}
+
+const SettingsPage: React.FC<SettingsPageProps> = () => {
+    const {userId} = auth();
+
+
     return (
         <div>
             Hello settings
