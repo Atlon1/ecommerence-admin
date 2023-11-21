@@ -21,9 +21,9 @@ const SettingsPage: React.FC<SettingsPageProps> =  async ({params}) => {
         where: {
             id: params.storeId,
             userId
+
         }
     });
-
     if(!store){
         redirect('/')
     }

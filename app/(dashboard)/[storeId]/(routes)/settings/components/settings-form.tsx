@@ -45,10 +45,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({initialData}) => {
         defaultValues: initialData
     })
 
+
     const onSubmit = async (data: SettingFormValues) => {
         try {
             setLoading(true)
-            await axios.put(`/api/stores/${params.storeId}`, data)
+            await axios.patch(`/api/stores/${params.storeId}`, data)
             router.refresh()
             toast.success('Store updated')
         }
