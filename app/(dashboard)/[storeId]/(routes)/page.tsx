@@ -1,5 +1,5 @@
 
-import prismatic from "@/lib/prismadb";
+import prismadb from "@/lib/prismadb";
 
 interface DashboardPageProps {
     params: {
@@ -7,7 +7,7 @@ interface DashboardPageProps {
     }
 }
 const DashboardPage: React.FC<DashboardPageProps> = async  ({params}) => {
-    const store = await prismatic.store.findFirst({
+    const store = await prismadb.store.findFirst({
         where: {
             id: params.storeId
         }

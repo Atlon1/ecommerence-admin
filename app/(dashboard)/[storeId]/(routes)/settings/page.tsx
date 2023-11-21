@@ -1,7 +1,7 @@
 import React from 'react';
 import {auth} from "@clerk/nextjs";
 import {redirect} from "next/navigation";
-import prismatic from "@/lib/prismadb";
+import prismadb from "@/lib/prismadb";
 import {SettingsForm} from "./components/settings-form";
 
 interface SettingsPageProps {
@@ -17,7 +17,7 @@ const SettingsPage: React.FC<SettingsPageProps> =  async ({params}) => {
         redirect('/sign-in')
     }
 
-    const store = await prismatic.store.findFirst({
+    const store = await prismadb.store.findFirst({
         where: {
             id: params.storeId,
             userId

@@ -2,7 +2,10 @@
 import React, {useState} from "react";
 import * as z from "zod"
 import {Store} from "@prisma/client";
+import axios from "axios";
 import {useForm} from "react-hook-form";
+import {useParams, useRouter} from "next/navigation";
+import {toast} from "react-hot-toast";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Heading} from "@/components/ui/heading";
 import {Button} from "@/components/ui/button";
@@ -19,6 +22,8 @@ import {
 import {Input} from "@/components/ui/input";
 
 
+
+
 const FormSchema = z.object({
     name: z.string().min(1, {message: "Name is required"}),
 })
@@ -30,7 +35,8 @@ interface SettingsFormProps {
 }
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({initialData}) => {
-
+    const router = useRouter()
+    const params = useParams()
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
 
@@ -40,7 +46,18 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({initialData}) => {
     })
 
     const onSubmit = async (data: SettingFormValues) => {
-        console.log(data)
+        try {
+            setLoading(true)
+            await axios.put(`/api/stores/${params.storeId}`, data)
+            router.refresh()
+            toast.success('Store updated')
+        }
+        catch (error) {
+         toast.error((error as Error).message)
+        }
+        finally {
+            setLoading(false)
+        }
     }
 
     return (
