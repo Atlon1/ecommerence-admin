@@ -3,7 +3,7 @@ import {UserButton, auth} from "@clerk/nextjs";
 import {MainNav} from "@/components/main-nav";
 import {redirect} from "next/navigation";
 import StoreSwitcher from "@/components/store-switcher";
-import prismatic from "@/lib/prismadb";
+import prismadb from "@/lib/prismadb";
 
 const Navbar = async () => {
 
@@ -12,7 +12,7 @@ const Navbar = async () => {
         redirect("/sign-in")
     }
 
-    const stores = await prismatic.store.findMany({
+    const stores = await prismadb.store.findMany({
         where: {
             userId : userId
         }
