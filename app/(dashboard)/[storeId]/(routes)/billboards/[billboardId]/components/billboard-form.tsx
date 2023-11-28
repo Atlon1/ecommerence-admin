@@ -45,6 +45,11 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({initialData}) => {
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
 
+    const title = initialData ? "Edit Billboard" : "Create Billboard"
+    const description = initialData ? "Edit a Billboard" : "Add a new Billboard"
+    const toastMessage = initialData ? "Billboard updated" : "Billboard created"
+    const action = initialData ? "Save Changes" : "Create Billboard"
+
 
     const form = useForm<BillboardFormValues>({
         resolver: zodResolver(FormSchema),
@@ -96,7 +101,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({initialData}) => {
                 loading={loading}/>
             <div className='flex items-center justify-between'>
                 <Heading
-                    title='Settings'
+                    title={title}
                     description='Manage your store settings'
                 />
                 <Button
