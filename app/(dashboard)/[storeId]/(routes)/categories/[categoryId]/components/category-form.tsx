@@ -1,7 +1,7 @@
 "use client"
 import React, {useState} from "react";
 import * as z from "zod"
-import {Category} from "@prisma/client";
+import {Billboard, Category} from "@prisma/client";
 import axios from "axios";
 import {useForm} from "react-hook-form";
 import {useParams, useRouter} from "next/navigation";
@@ -21,6 +21,12 @@ import {
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {AlertModal} from "@/components/modals/alert-modal";
+import {
+    Select,
+    SelectContent, SelectItem,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select";
 
 const FormSchema = z.object({
     name: z.string().min(1, {message: "Name is required"}),
@@ -30,10 +36,11 @@ const FormSchema = z.object({
 type CategoryFormValues = z.infer<typeof FormSchema>
 
 interface CategoryFormProps {
-    initialData: Category | null
+    initialData: Category | null,
+    billboards: Billboard[]
 }
 
-export const CategoryForm: React.FC<CategoryFormProps> = ({initialData}) => {
+export const CategoryForm: React.FC<CategoryFormProps> = ({billboards, initialData}) => {
     const router = useRouter()
     const params = useParams()
     const [open, setOpen] = useState(false)
@@ -131,6 +138,38 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({initialData}) => {
                                     <FormControl>
                                         <Input disabled={loading} placeholder='Category Name' {...field}/>
                                     </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='billboardId'
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Billboard</FormLabel>
+                                    <Select
+                                        disabled={loading}
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue
+                                                defaultValue={field.value}
+                                                placeholder='Select a billboard'
+                                            />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                        <SelectContent>
+                                            {billboards.map((billboard) => (
+                                                <SelectItem
+                                                    key={billboard.id}
+                                                    value={billboard.id}>
+                                                    {billboard.label}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                     <FormMessage/>
                                 </FormItem>
                             )}
