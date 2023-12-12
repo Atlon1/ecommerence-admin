@@ -1,7 +1,7 @@
 "use client"
 import React, {useState} from "react";
 import * as z from "zod"
-import {Billboard} from "@prisma/client";
+import {Size} from "@prisma/client";
 import axios from "axios";
 import {useForm} from "react-hook-form";
 import {useParams, useRouter} from "next/navigation";
@@ -24,38 +24,38 @@ import {AlertModal} from "@/components/modals/alert-modal";
 import ImageUpload from "@/components/ui/image-upload";
 
 const FormSchema = z.object({
-    label: z.string().min(1, {message: "Name is required"}),
-    imageUrl: z.string().min(1, {message: "Image URL is required"}),
+    name: z.string().min(1, {message: "Name is required"}),
+    value: z.string().min(1, {message: "Image URL is required"}),
 })
 
-type BillboardFormValues = z.infer<typeof FormSchema>
+type SizeFormValues = z.infer<typeof FormSchema>
 
-interface BillboardFormProps {
-    initialData: Billboard | null
+interface SizeFormProps {
+    initialData: Size | null
 }
 
-export const BillboardForm: React.FC<BillboardFormProps> = ({initialData}) => {
+export const SizeForm: React.FC<SizeFormProps> = ({initialData}) => {
     const router = useRouter()
     const params = useParams()
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const title = initialData ? "Edit Billboard" : "Create Billboard"
-    const description = initialData ? "Edit a Billboard" : "Add a new Billboard"
-    const toastMessage = initialData ? "Billboard updated" : "Billboard created"
-    const action = initialData ? "Save Changes" : "Create Billboard"
+    const title = initialData ? "Edit size" : "Create size"
+    const description = initialData ? "Edit a size" : "Add a new size"
+    const toastMessage = initialData ? "Size updated" : "Size created"
+    const action = initialData ? "Save Changes" : "Create Size"
 
 
-    const form = useForm<BillboardFormValues>({
+    const form = useForm<SizeFormValues>({
         resolver: zodResolver(FormSchema),
         defaultValues: initialData || {
-            label: "",
-            imageUrl: ""
+            name: "",
+            value: ""
         }
     })
 
 
-    const onSubmit = async (data: BillboardFormValues) => {
+    const onSubmit = async (data: SizeFormProps) => {
         try {
             setLoading(true)
             if (initialData) {
