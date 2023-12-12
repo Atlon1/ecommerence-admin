@@ -1,6 +1,4 @@
 import {format} from 'date-fns';
-
-import {BillboardClient} from "./components/client";
 import prismadb from "@/lib/prismadb";
 import {SizeColumn} from "./components/columns";
 import {SizesClient} from "./components/client";
