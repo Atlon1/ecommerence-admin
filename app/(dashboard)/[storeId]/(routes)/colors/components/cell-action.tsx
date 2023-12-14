@@ -4,7 +4,7 @@ import {useState} from "react";
 import {Copy, Edit, MoreHorizontal, Trash} from "lucide-react";
 import {toast} from "react-hot-toast";
 import {useRouter, useParams} from "next/navigation";
-import {SizeColumn} from "./columns";
+import {ColorColumn} from "./columns";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -20,7 +20,7 @@ import {Button} from "@/components/ui/button";
 
 
 interface setActionProps {
-    data:SizeColumn
+    data:ColorColumn
 }
 
 
@@ -34,18 +34,18 @@ export const CellAction: React.FC<setActionProps> = ({
     const [open, setOpen] = useState(false)
     const onCopy = (id:string) => {
         navigator.clipboard.writeText(id)
-        toast.success('Size Id copied to clipboard')
+        toast.success('Color Id copied to clipboard')
     }
 
     const onDelete = async () => {
         try {
             setLoading(true)
-            await axios.delete(`/api/${params.storeId}/sizes/${data.id}`)
+            await axios.delete(`/api/${params.storeId}/colors/${data.id}`)
             router.refresh()
-            toast.success('Size deleted')
+            toast.success('Color deleted')
         }
         catch (error) {
-            toast.error("Make sure you removed all product using this size first.")
+            toast.error("Make sure you removed all product using this color first.")
         }
         finally {
             setLoading(false)
@@ -77,7 +77,7 @@ export const CellAction: React.FC<setActionProps> = ({
                         <Copy className='mr-2 h-4 w-4'/>
                         Copy Id
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/sizes/${data.id}`)}>
+                    <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/colors/${data.id}`)}>
                         <Edit className='mr-2 h-4 w-4'/>
                         Update
                     </DropdownMenuItem>

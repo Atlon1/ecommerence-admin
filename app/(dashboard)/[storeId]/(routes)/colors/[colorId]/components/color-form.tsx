@@ -59,12 +59,12 @@ export const ColorForm: React.FC<ColorFormProps> = ({initialData}) => {
         try {
             setLoading(true)
             if (initialData) {
-                await axios.patch(`/api/${params.storeId}/sizes/${params.sizeId}`, data)
+                await axios.patch(`/api/${params.storeId}/colors/${params.colorId}`, data)
             } else {
-                await axios.post(`/api/${params.storeId}/sizes`, data)
+                await axios.post(`/api/${params.storeId}/colors`, data)
             }
             router.refresh()
-            router.push(`/${params.storeId}/sizes`)
+            router.push(`/${params.storeId}/colors`)
             toast.success(toastMessage)
         }
         catch (error) {
@@ -78,10 +78,10 @@ export const ColorForm: React.FC<ColorFormProps> = ({initialData}) => {
     const onDelete = async () => {
         try {
             setLoading(true)
-            await axios.delete(`/api/${params.storeId}/sizes/${params.siezeId}`)
+            await axios.delete(`/api/${params.storeId}/colors/${params.colorId}`)
             router.refresh()
-            router.push(`/${params.storeId}/sizes`)
-            toast.success('Sizes deleted')
+            router.push(`/${params.storeId}/colors`)
+            toast.success('Color deleted')
         }
         catch (error) {
             toast.error("Make sure you removed all product using this color first.")
