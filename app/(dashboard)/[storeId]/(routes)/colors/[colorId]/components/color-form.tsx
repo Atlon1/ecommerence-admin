@@ -1,7 +1,7 @@
 "use client"
 import React, {useState} from "react";
 import * as z from "zod"
-import {Size} from "@prisma/client";
+import {Color} from "@prisma/client";
 import axios from "axios";
 import {useForm} from "react-hook-form";
 import {useParams, useRouter} from "next/navigation";
@@ -25,28 +25,28 @@ import {AlertModal} from "@/components/modals/alert-modal";
 
 const FormSchema = z.object({
     name: z.string().min(1, {message: "Name is required"}),
-    value: z.string().min(1, {message: "Image URL is required"}),
+    value: z.string().min(4 ).regex(/^#/, {message: "String must be a valid hex code"}),
 })
 
-type SizeFormValues = z.infer<typeof FormSchema>
+type ColorFormValues = z.infer<typeof FormSchema>
 
-interface SizeFormProps {
-    initialData: Size | null
+interface ColorFormProps {
+    initialData: Color | null
 }
 
-export const SizeForm: React.FC<SizeFormProps> = ({initialData}) => {
+export const ColorForm: React.FC<ColorFormProps> = ({initialData}) => {
     const router = useRouter()
     const params = useParams()
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const title = initialData ? "Edit size" : "Create size"
-    const description = initialData ? "Edit a size" : "Add a new size"
-    const toastMessage = initialData ? "Size updated" : "Size created"
-    const action = initialData ? "Save Changes" : "Create Size"
+    const title = initialData ? "Edit color" : "Create color"
+    const description = initialData ? "Edit a color" : "Add a new color"
+    const toastMessage = initialData ? "Color updated" : "Color created"
+    const action = initialData ? "Save Changes" : "Create Color"
 
 
-    const form = useForm<SizeFormValues>({
+    const form = useForm<ColorFormValues>({
         resolver: zodResolver(FormSchema),
         defaultValues: initialData || {
             name: "",
@@ -55,7 +55,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({initialData}) => {
     })
 
 
-    const onSubmit = async (data: SizeFormValues) => {
+    const onSubmit = async (data: ColorFormValues) => {
         try {
             setLoading(true)
             if (initialData) {
@@ -84,7 +84,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({initialData}) => {
             toast.success('Sizes deleted')
         }
         catch (error) {
-            toast.error("Make sure you removed all product using this size first.")
+            toast.error("Make sure you removed all product using this color first.")
         }
         finally {
             setLoading(false)
@@ -131,7 +131,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({initialData}) => {
                                 <FormItem>
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
-                                        <Input disabled={loading} placeholder='Size name' {...field}/>
+                                        <Input disabled={loading} placeholder='Color name' {...field}/>
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>
@@ -144,7 +144,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({initialData}) => {
                                 <FormItem>
                                     <FormLabel>Value</FormLabel>
                                     <FormControl>
-                                        <Input disabled={loading} placeholder='Size value' {...field}/>
+                                        <Input disabled={loading} placeholder='Color value' {...field}/>
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>
