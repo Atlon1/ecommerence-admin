@@ -35,7 +35,7 @@ export const ProductClient: React.FC<ProductClientProps> = ({ data}) => {
             <DataTable searchKey='label' columns={columns} data={data}/>
             <Heading title='Api' description='Api calss for Products'/>
             <Separator/>
-            <ApiList entityName='products' entityIdName='productId'/>
+            <ApiList entityName='products' entityIdName='productsId'/>
         </>
     )
 }

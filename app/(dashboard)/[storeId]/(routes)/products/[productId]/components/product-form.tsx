@@ -1,7 +1,7 @@
 "use client"
 import React, {useState} from "react";
 import * as z from "zod"
-import {Billboard} from "@prisma/client";
+import {Product, Image} from "@prisma/client";
 import axios from "axios";
 import {useForm} from "react-hook-form";
 import {useParams, useRouter} from "next/navigation";
@@ -21,21 +21,28 @@ import {
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {AlertModal} from "@/components/modals/alert-modal";
-import {useOrgin} from "@/hooks/use-orgin";
 import ImageUpload from "@/components/ui/image-upload";
 
 const FormSchema = z.object({
-    label: z.string().min(1, {message: "Name is required"}),
-    imageUrl: z.string().min(1, {message: "Image URL is required"}),
+    name: z.string().min(1, {message: "Name is required"}),
+    images: z.object({url: z.string()}).array(),
+    price: z.coerce.number().min(1, {message: "Price must be greater than 0"}),
+    categoryId: z.string().min(1),
+    colorId: z.string().min(1),
+    sizeId: z.string().min(1),
+    isFutered: z.boolean().default(false).optional(),
+    isArchived: z.boolean().default(false).optional()
 })
 
-type BillboardFormValues = z.infer<typeof FormSchema>
+type ProductFormValues = z.infer<typeof FormSchema>
 
-interface BillboardFormProps {
-    initialData: Billboard | null
+interface ProductFormProps {
+    initialData: Product & {
+        images: Image[]
+    } | null
 }
 
-export const BillboardForm: React.FC<BillboardFormProps> = ({initialData}) => {
+export const ProductForm: React.FC<ProductFormProps> = ({initialData}) => {
     const router = useRouter()
     const params = useParams()
     const [open, setOpen] = useState(false)
@@ -47,16 +54,25 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({initialData}) => {
     const action = initialData ? "Save Changes" : "Create Billboard"
 
 
-    const form = useForm<BillboardFormValues>({
+    const form = useForm<ProductFormValues>({
         resolver: zodResolver(FormSchema),
-        defaultValues: initialData || {
-            label: "",
-            imageUrl: ""
+        defaultValues: initialData ? {
+            ...initialData,
+            price: parseFloat(String(initialData?.price)),
+        } : {
+            name: '',
+            images: [],
+            price: 0,
+            categoryId: '',
+            colorId: '',
+            sizeId: '',
+            isFutered: false,
+            isArchived: false
         }
     })
 
 
-    const onSubmit = async (data: BillboardFormValues) => {
+    const onSubmit = async (data: ProductFormValues) => {
         try {
             setLoading(true)
             if (initialData) {
