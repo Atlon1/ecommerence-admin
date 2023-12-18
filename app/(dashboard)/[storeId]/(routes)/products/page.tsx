@@ -1,35 +1,42 @@
 import {format} from 'date-fns';
-
-import {BillboardClient} from "./components/client";
 import prismadb from "@/lib/prismadb";
-import {BillboardColumn} from "./components/columns";
+import {formatter} from "@/lib/utils";
 
-const ProductPage = async ({params} : {params: {storeId: string}}) => {
+import {ProductClient} from "./components/client";
+import {ProductColumn} from "./components/columns";
 
-   const products = await prismadb.product.findMany({
-       where: {
-           storeId: params.storeId
-       },
-       include: {
-           category: true,
-           size: true,
-           color: true
-       },
-       orderBy: {
-           createdAt: 'desc'
-       }
-   });
+const ProductPage = async ({params}: { params: { storeId: string } }) => {
 
-   const formatedBillboards : BillboardColumn[] = products.map((billboard) => ({
-       id: billboard.id,
-       label: billboard.label,
-        createdAt: format(billboard.createdAt, "MMMM do, yyyy")
-   }))
+    const products = await prismadb.product.findMany({
+        where: {
+            storeId: params.storeId
+        },
+        include: {
+            category: true,
+            size: true,
+            color: true
+        },
+        orderBy: {
+            createdAt: 'desc'
+        }
+    });
+
+    const formattedProducts: ProductColumn[] = products.map((products) => ({
+        id: products.id,
+        name: products.name,
+        isFutered: products.isFutered,
+        isArchived: products.isArchived,
+        price: formatter.format(products.price.toNumber()),
+        category: products.category.name,
+        size: products.size.name,
+        color: products.color.value,
+        createdAt: format(products.createdAt, "MMMM do, yyyy")
+    }))
 
     return (
         <div className='flex-col'>
             <div className='flex-1 space-y-4 p-8 pt-6'>
-                <BillboardClient data={formatedBillboards}/>
+                <ProductClient data={formattedProducts}/>
             </div>
         </div>
     )
