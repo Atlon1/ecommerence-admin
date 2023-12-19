@@ -48,10 +48,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({initialData}) => {
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const title = initialData ? "Edit Billboard" : "Create Billboard"
-    const description = initialData ? "Edit a Billboard" : "Add a new Billboard"
-    const toastMessage = initialData ? "Billboard updated" : "Billboard created"
-    const action = initialData ? "Save Changes" : "Create Billboard"
+    const title = initialData ? "Edit Product" : "Create Product"
+    const description = initialData ? "Edit a Product" : "Add a new Product"
+    const toastMessage = initialData ? "Product updated" : "Product created"
+    const action = initialData ? "Save Changes" : "Create Product"
 
 
     const form = useForm<ProductFormValues>({
@@ -141,20 +141,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({initialData}) => {
                 <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 w-full'>
                     <FormField
                         control={form.control}
-                        name='imageUrl'
+                        name='images'
                         render={({field}) => (
                             <FormItem>
-                                <FormLabel>Backgorund Image</FormLabel>
+                                <FormLabel>Images</FormLabel>
                                 <FormControl>
                                     <ImageUpload
-                                        value={field.value ? [field.value] : []}
+                                        value={field.value.map((item) => item.url)}
                                         disabled={loading}
                                         onChange={(url) => {
-                                            field.onChange(url)
+                                            field.onChange([...field.value, {url}])
                                         }}
-                                        onRemove={() => {
-                                            field.onChange("")
-                                        }}
+                                        onRemove={(url) => field.onChange([...field.value.filter((current) => current.url !== url)])}
                                     />
                                 </FormControl>
                                 <FormMessage/>
