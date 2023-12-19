@@ -162,12 +162,27 @@ export const ProductForm: React.FC<ProductFormProps> = ({initialData}) => {
                     <div className='grid grid-cols-3 gap-8'>
                         <FormField
                             control={form.control}
-                            name='label'
+                            name='name'
                             render={({field}) => (
                                 <FormItem>
-                                    <FormLabel>Label</FormLabel>
+                                    <FormLabel>Name</FormLabel>
                                     <FormControl>
-                                        <Input disabled={loading} placeholder='Billboard label' {...field}/>
+                                        <Input disabled={loading}
+                                               placeholder='Product name' {...field}/>
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='price'
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Price</FormLabel>
+                                    <FormControl>
+                                        <Input disabled={loading}
+                                               placeholder='9.99' {...field}/>
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>
