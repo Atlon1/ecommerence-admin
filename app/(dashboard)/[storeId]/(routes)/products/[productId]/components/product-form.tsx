@@ -13,7 +13,7 @@ import {Trash} from "lucide-react";
 import {Separator} from "@/components/ui/separator";
 import {
     Form,
-    FormControl,
+    FormControl, FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -30,6 +30,7 @@ import {
     SelectValue
 }
     from "@/components/ui/select";
+import {Checkbox} from "@/components/ui/checkbox";
 
 const FormSchema = z.object({
     name: z.string().min(1, {message: "Name is required"}),
@@ -288,6 +289,50 @@ export const ProductForm: React.FC<ProductFormProps> = ({initialData, categories
                                         </SelectContent>
                                     </Select>
                                     <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='isFutered'
+                            render={({field}) => (
+                                <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <div className='space-y-1 leading-none'>
+                                        <FormLabel>
+                                            Featured
+                                        </FormLabel>
+                                        <FormDescription>
+                                            This product will appear on the home page
+                                        </FormDescription>
+                                    </div>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='isArchived'
+                            render={({field}) => (
+                                <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <div className='space-y-1 leading-none'>
+                                        <FormLabel>
+                                            Archived
+                                        </FormLabel>
+                                        <FormDescription>
+                                            This product will not appear anywhere in the store.
+                                        </FormDescription>
+                                    </div>
                                 </FormItem>
                             )}
                         />
