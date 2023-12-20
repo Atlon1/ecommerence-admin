@@ -1,7 +1,7 @@
 "use client"
 import React, {useState} from "react";
 import * as z from "zod"
-import {Product, Image} from "@prisma/client";
+import {Product, Image, Category, Color, Size} from "@prisma/client";
 import axios from "axios";
 import {useForm} from "react-hook-form";
 import {useParams, useRouter} from "next/navigation";
@@ -22,6 +22,14 @@ import {
 import {Input} from "@/components/ui/input";
 import {AlertModal} from "@/components/modals/alert-modal";
 import ImageUpload from "@/components/ui/image-upload";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+}
+    from "@/components/ui/select";
 
 const FormSchema = z.object({
     name: z.string().min(1, {message: "Name is required"}),
@@ -40,9 +48,12 @@ interface ProductFormProps {
     initialData: Product & {
         images: Image[]
     } | null
+    categories: Category[]
+    sizes: Size[]
+    colors: Color[]
 }
 
-export const ProductForm: React.FC<ProductFormProps> = ({initialData}) => {
+export const ProductForm: React.FC<ProductFormProps> = ({initialData, categories, sizes, colors}) => {
     const router = useRouter()
     const params = useParams()
     const [open, setOpen] = useState(false)
@@ -83,11 +94,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({initialData}) => {
             router.refresh()
             router.push(`/${params.storeId}/billboards`)
             toast.success(toastMessage)
-        }
-        catch (error) {
+        } catch (error) {
             toast.error((error as Error).message)
-        }
-        finally {
+        } finally {
             setLoading(false)
         }
     }
@@ -99,11 +108,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({initialData}) => {
             router.refresh()
             router.push(`/${params.storeId}/billboards`)
             toast.success('Billboard deleted')
-        }
-        catch (error) {
+        } catch (error) {
             toast.error("Make sure you removed all categories using this billboard first.")
-        }
-        finally {
+        } finally {
             setLoading(false)
             setOpen(false)
         }
@@ -184,6 +191,70 @@ export const ProductForm: React.FC<ProductFormProps> = ({initialData}) => {
                                         <Input disabled={loading}
                                                placeholder='9.99' {...field}/>
                                     </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='categoryId'
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Category</FormLabel>
+                                    <Select
+                                        disabled={loading}
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue
+                                                    defaultValue={field.value}
+                                                    placeholder='Select a Category'
+                                                />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {categories.map((category) => (
+                                                <SelectItem
+                                                    key={category.id}
+                                                    value={category.id}>
+                                                    {category.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='sizeId'
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Size</FormLabel>
+                                    <Select
+                                        disabled={loading}
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue
+                                                    defaultValue={field.value}
+                                                    placeholder='Select a size'
+                                                />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {sizes.map((size) => (
+                                                <SelectItem
+                                                    key={size.id}
+                                                    value={size.id}>
+                                                    {size.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                     <FormMessage/>
                                 </FormItem>
                             )}
