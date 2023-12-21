@@ -79,10 +79,10 @@ export async function POST(
             }
         });
 
-        return NextResponse.json(billboard)
+        return NextResponse.json(product)
 
     } catch (error) {
-        console.log('[BILLBOARDS_POST]', error)
+        console.log('[PRODUCTS_POST]', error)
         return new NextResponse('Interal error', {status: 500})
     }
 }
@@ -92,20 +92,26 @@ export async function GET(
 ) {
     try {
 
+        const {searchParams} = new URL(req.url)
+        const categoryId = searchParams.get('categoryId') || undefined;
+        const colorId = searchParams.get('colorId') || undefined;
+        const sizeId = searchParams.get('sizeId') || undefined;
+        const isFutered = searchParams.get('isFutered')
+
         if (!params.storeId) {
             return new NextResponse('Store ID is required', {status: 400})
         }
 
-        const billboards = await prismadb.billboard.findMany({
+        const products = await prismadb.product.findMany({
            where: {
                storeId: params.storeId
            }
         });
 
-        return NextResponse.json(billboards)
+        return NextResponse.json(products)
 
     } catch (error) {
-        console.log('[BILLBOARDS_GET]', error)
+        console.log('[PRODUCTS_GET]', error)
         return new NextResponse('Interal error', {status: 500})
     }
 }
