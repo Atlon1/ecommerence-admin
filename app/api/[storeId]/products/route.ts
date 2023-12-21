@@ -83,7 +83,7 @@ export async function POST(
 
     } catch (error) {
         console.log('[PRODUCTS_POST]', error)
-        return new NextResponse('Interal error', {status: 500})
+        return new NextResponse('Internal error', {status: 500})
     }
 }
 
@@ -111,7 +111,8 @@ export async function GET(
                 sizeId,
                 isFutered: isFutered ? true : undefined,
                 isArchived: false
-            }, include: {
+            },
+            include: {
                 images: true,
                 category: true,
                 color: true,
@@ -126,6 +127,6 @@ export async function GET(
 
     } catch (error) {
         console.log('[PRODUCTS_GET]', error)
-        return new NextResponse('Interal error', {status: 500})
+        return new NextResponse('Internal error', {status: 500})
     }
 }

@@ -26,7 +26,7 @@ export async function GET(
         })
         return NextResponse.json(product)
     } catch (error) {
-        console.log('[PRODUCTS_GET]', error)
+        console.log('[PRODUCT_GET]', error)
         return new NextResponse('Interal error', {status: 500})
     }
 }
@@ -124,7 +124,7 @@ export async function PATCH(
 
         return NextResponse.json(product)
     } catch (error) {
-        console.log('[PRODUCTS_PATCH]', error)
+        console.log('[PRODUCT_PATCH]', error)
         return new NextResponse('Interal error', {status: 500})
     }
 }
