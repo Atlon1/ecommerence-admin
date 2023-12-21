@@ -4,7 +4,7 @@ import prismadb from "@/lib/prismadb";
 
 export async function POST(
     req: Request,
-    {params}: {params: {storeId: string}}
+    {params}: { params: { storeId: string } }
 ) {
     try {
         const {userId} = auth()
@@ -69,10 +69,10 @@ export async function POST(
                 colorId,
                 sizeId,
                 storeId: params.storeId,
-                images : {
+                images: {
                     createMany: {
                         data: [
-                            ...images.map((image: {url: string}) => image)
+                            ...images.map((image: { url: string }) => image)
                         ]
                     }
                 }
@@ -86,9 +86,10 @@ export async function POST(
         return new NextResponse('Interal error', {status: 500})
     }
 }
+
 export async function GET(
     req: Request,
-    {params}: {params: {storeId: string}}
+    {params}: { params: { storeId: string } }
 ) {
     try {
 
@@ -103,9 +104,22 @@ export async function GET(
         }
 
         const products = await prismadb.product.findMany({
-           where: {
-               storeId: params.storeId
-           }
+            where: {
+                storeId: params.storeId,
+                categoryId,
+                colorId,
+                sizeId,
+                isFutered: isFutered ? true : undefined,
+                isArchived: false
+            }, include: {
+                images: true,
+                category: true,
+                color: true,
+                size: true
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
         });
 
         return NextResponse.json(products)
