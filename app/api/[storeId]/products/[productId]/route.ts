@@ -54,7 +54,7 @@ export async function PATCH(
         if (!userId) {
             return new NextResponse('Unauthorized', {status: 401})
         }
-        if (name) {
+        if (!name) {
             return new NextResponse('Name is required', {status: 400})
         }
         if (!images || !images.length) {

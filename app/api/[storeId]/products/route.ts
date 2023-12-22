@@ -25,8 +25,7 @@ export async function POST(
         if (!userId) {
             return new NextResponse('Unauthenticated', {status: 401})
         }
-
-        if (name) {
+        if (!name) {
             return new NextResponse('Name is required', {status: 400})
         }
         if (!images || !images.length) {
