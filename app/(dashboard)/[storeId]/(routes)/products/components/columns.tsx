@@ -1,20 +1,19 @@
 "use client"
 
-import {ColumnDef} from "@tanstack/react-table"
-import {CellAction} from "./cell-action"
+import { ColumnDef } from "@tanstack/react-table"
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
+import { CellAction } from "./cell-action"
+
 export type ProductColumn = {
     id: string
-    name: string
-    price: string
-    size: string
-    category: string
-    color: string
-    isFutered: boolean
-    isArchived: boolean
-    createdAt: string
+    name: string;
+    price: string;
+    category: string;
+    size: string;
+    color: string;
+    createdAt: string;
+    isFeatured: boolean;
+    isArchived: boolean;
 }
 
 export const columns: ColumnDef<ProductColumn>[] = [
@@ -27,8 +26,8 @@ export const columns: ColumnDef<ProductColumn>[] = [
         header: "Archived",
     },
     {
-        accessorKey: "isFutered",
-        header: "Fratured",
+        accessorKey: "isFeatured",
+        header: "Featured",
     },
     {
         accessorKey: "price",
@@ -45,12 +44,10 @@ export const columns: ColumnDef<ProductColumn>[] = [
     {
         accessorKey: "color",
         header: "Color",
-        cell: ({row}) => (
-            <div className='flex items-center gap-x-2'>
+        cell: ({ row }) => (
+            <div className="flex items-center gap-x-2">
                 {row.original.color}
-                <div className='f-6 w-6 rounded-full border'
-                style={{backgroundColor: row.original.color}}
-                />
+                <div className="h-6 w-6 rounded-full border" style={{ backgroundColor: row.original.color }} />
             </div>
         )
     },
@@ -60,6 +57,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
     },
     {
         id: "actions",
-        cell: ({row}) => <CellAction data={row.original}/>
-    }
-]
+        cell: ({ row }) => <CellAction data={row.original} />
+    },
+];
