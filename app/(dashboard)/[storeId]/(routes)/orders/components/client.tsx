@@ -1,27 +1,23 @@
 "use client";
 
-import React from "react";
-import {Heading} from "@/components/ui/heading";
-import {Separator} from "@/components/ui/separator";
-import {OrderColumn, columns} from "./columns";
-import {DataTable} from "@/components/ui/data-table";
+import { DataTable } from "@/components/ui/data-table";
+import { Heading } from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
 
+import { columns, OrderColumn } from "./columns";
 
-interface BillboardClientProps {
-    data: OrderColumn[]
+interface OrderClientProps {
+    data: OrderColumn[];
 }
 
-export const OrdersClient: React.FC<BillboardClientProps> = ({ data}) => {
-
+export const OrderClient: React.FC<OrderClientProps> = ({
+                                                            data
+                                                        }) => {
     return (
         <>
-            <div className='flex items-center justify-between'>
-                <Heading title={`Products (${data.length})`}
-                         description='Manage products for your store'
-                />
-            </div>
-            <Separator/>
-            <DataTable searchKey='products' columns={columns} data={data}/>
+            <Heading title={`Orders (${data.length})`} description="Manage orders for your store" />
+            <Separator />
+            <DataTable searchKey="products" columns={columns} data={data} />
         </>
-    )
-}
+    );
+};
