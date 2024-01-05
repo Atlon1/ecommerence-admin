@@ -3,6 +3,8 @@ import prismadb from "@/lib/prismadb";
 
 import {Heading} from "@/components/ui/heading";
 import {Separator} from "@/components/ui/separator";
+import {Card, CardHeader, CardTitle} from "@/components/ui/card";
+import {DollarSign} from "lucide-react";
 
 
 interface DashboardPageProps {
@@ -19,8 +21,15 @@ const DashboardPage: React.FC<DashboardPageProps> = async  ({params}) => {
                 <Heading title='Dashboard' description='Overview of your store'/>
                 <Separator/>
                 <div className='gird gap-4 grid-cols-3'>
-                    
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className='text-sm font-medium'>
+                                Total Revenue
+                            </CardTitle>
+                            <DollarSign/>
+                        </CardHeader>
 
+                    </Card>
                 </div>
             </div>
         </div>
