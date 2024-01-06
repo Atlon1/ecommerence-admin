@@ -63,6 +63,16 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
                         </CardContent>
                     </Card>
                 </div>
+                <Card className='cols-span-4'>
+                    <CardHeader>
+                        <CardTitle>
+                            Overview
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+
+                    </CardContent>
+                </Card>
             </div>
         </div>
     );
