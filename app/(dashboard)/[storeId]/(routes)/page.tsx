@@ -9,6 +9,7 @@ import {getTotalRevenue} from "@/actions/get-total-revenue";
 import {formatter} from "@/lib/utils";
 import {getSalesCount} from "@/actions/get-sales-count";
 import {getStockCount} from "@/actions/get-stock-count";
+import {Overview} from "@/components/overview";
 
 interface DashboardPageProps {
     params: {
@@ -70,7 +71,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-
+                        <Overview data={[]}/>
                     </CardContent>
                 </Card>
             </div>
